@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Responses</title>
+</head>
+<body>
+    <h1>Submitted Responses</h1>
+    <ul>
+    {% for response in responses %}
+        <li>{{ response.name }} - {{ response.phone_number }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
