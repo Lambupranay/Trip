@@ -13,12 +13,13 @@ app = Flask(__name__)
 
 import os
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'd2b2e7b091214f37b94d3a35a6b6c127ad3a8174ce5c4f4e')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///data.db')
+from dotenv import load_dotenv
 
-# app.config['SECRET_KEY'] = 'd2b2e7b091214f37b94d3a35a6b6c127ad3a8174ce5c4f4e'  # For CSRF protection
+# Load environment variables from .env file
+load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # Using SQLite database
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking
 db.init_app(app)
 
@@ -56,6 +57,15 @@ def thank_you():
 def view_responses():
     responses = VisitInterest.query.all()
     return render_template('responses.html', responses=responses)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)  # Starts the Flask development server

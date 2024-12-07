@@ -10,3 +10,8 @@ __pycache__/
 
 # Ignore embedded repository (if not needed)
 Trip/
+# Ignore SQLite database
+instance/data.db
+
+# Ignore .env file
+instance/.env
